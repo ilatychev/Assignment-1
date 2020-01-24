@@ -30,12 +30,14 @@ namespace Assignment1
 
         public double GetCircumference()
         {
-            return 2 * 3.14 * radius;
+            int diameter = radius * 2;
+            return 3.14 * diameter;
         }
 
         public double GetArea()
         {
-            return 3.14 * radius * 2;
+            int radiusSquared = radius * radius;
+            return 3.14 * radiusSquared;
         } 
     }
 }
