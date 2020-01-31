@@ -2,6 +2,7 @@
 using System.Net.Mime;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
+using System.Transactions;
 
 namespace Assignment1
 {
@@ -15,7 +16,10 @@ namespace Assignment1
             Circle testCircle;
             double circumference;
             double area;
-            bool NotANumber;
+            bool validInput;
+            bool validNumber;
+            bool validRadius;
+            bool nextOption;
 
             //Initializations
             radius = 0;
@@ -23,21 +27,25 @@ namespace Assignment1
             testCircle = new Circle();
             circumference = 0;
             area = 0;
-            NotANumber = true;
+            validInput = true;
+            validNumber = true;
+            validRadius = true;
+            nextOption = true;
 
-            Console.WriteLine("Please enter the radius for the circle: ");
-            try
+            do
             {
+                Console.WriteLine("Please enter the radius for the circle: ");
                 radius = int.Parse(Console.ReadLine());
                 if (radius <= 0)
                 {
-                    Console.WriteLine("Invalid Input. Please try again.");
+                    validNumber = false;
+                    Console.WriteLine("Please enter a valid number greater than zero");
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Please enter a number.");
-            }
+                else
+                {
+                    validNumber = true;
+                }
+            } while (!validNumber);
 
             do
             {
@@ -47,45 +55,53 @@ namespace Assignment1
                 Console.WriteLine("4. Get Circle Area");
                 Console.WriteLine("5. Exit");
                 userInput = Console.ReadLine();
-                if (userInput != "")
+                if (userInput == "1")
                 {
-                    NotANumber = false;
+                    radius = testCircle.GetRadius();
+                    Console.WriteLine("Radius Retrieved: " + radius.ToString());
+                    nextOption = true;
+                }
+                else if (userInput == "2")
+                {
+                    do
+                    {
+                        Console.WriteLine("Please enter a new radius: ");
+                        radius = int.Parse(Console.ReadLine());
+                        if (radius >= 1)
+                        {
+                            validRadius = true;
+                            testCircle.SetRadius(radius);
+                            Console.WriteLine("Radius Successfully Changed: " + testCircle.GetRadius());
+                            nextOption = true;
+                        }
+                        else
+                        {
+                            validRadius = false;
+                            Console.WriteLine("Please enter a valid radius");
+                        }
+                    } while (!validRadius);
+                }
+                else if (userInput == "3")
+                {
+                    circumference = testCircle.GetCircumference();
+                    Console.WriteLine("The circumference of the circle is: " + circumference);
+                    nextOption = true;
+                }
+                else if (userInput == "4")
+                {
+                    area = testCircle.GetArea();
+                    Console.WriteLine("The area of the circle is: " + area);
+                    nextOption = true;
+                }
+                else if (userInput == "5")
+                {
+                    Environment.Exit(0);
                 }
                 else
                 {
-                    NotANumber = true;
+                    validInput = false;
                 }
-            } while (!NotANumber);
-
-            if (userInput == "1")
-            {
-                radius = testCircle.GetRadius();
-                Console.WriteLine("Radius Retrieved: " + radius.ToString());
-            }
-            else if (userInput == "2")
-            {
-                Console.WriteLine("Please enter a new radius: ");
-                radius = int.Parse(Console.ReadLine());
-                if (radius >= 1)
-                {
-                    testCircle.SetRadius(radius);
-                    Console.WriteLine("Radius Successfully Changed: " + testCircle.GetRadius());
-                }
-            }
-            else if (userInput == "3")
-            {
-                circumference = testCircle.GetCircumference();
-                Console.WriteLine("The circumference of the circle is: " + circumference);
-            }
-            else if (userInput == "4")
-            {
-                area = testCircle.GetArea();
-                Console.WriteLine("The area of the circle is: " + area);
-            }
-            else
-            {
-                Environment.Exit(0);
-            }
+            } while (!validInput || nextOption == true);
         }
     }
 }
