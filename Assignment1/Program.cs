@@ -1,4 +1,13 @@
-﻿using System;
+﻿/*
+ * Program: CPA
+ *
+ * Purpose: To work with and modify a circle
+ *
+ * Revision History: Created and Modified
+ *                      by Igor Latychev
+ *                      on Jan 31, 2020
+ */
+using System;
 using System.Net.Mime;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
